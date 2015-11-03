@@ -209,34 +209,6 @@ def query(querystring, max_results=10, strategy="boolean"):
         return tfidf_query(querystring, max_results)
 
 
-def execute_chained_booleans(result, ops):
-    """Executes a sequence of boolean operations stored in `ops` on the
-    matching documents of each query term (left to right precendence).
-
-    Parameters
-    ----------
-    result : set
-        Current result set of matching documents.
-    ops : list
-        A list of alternating boolean operators and query terms, e.g.:
-        ["or", "religion", "and", "science] , this will execute the query
-        "religion AND science".  The first operator is dummy and will
-        always be an "or" (neutral).
-
-    Returns
-    -------
-    set
-        A set of matching document id's.
-    """
-    if not ops:
-        return result
-    else:
-        set_op = lambda s, x, y: (x == "and" and s.intersection_update(y)) \
-                                  or (x == "or" and s.update(y))
-        set_op(result, ops.pop(), inverted_index.get(ops.pop(), set()))
-        return execute_chained_booleans(result, ops)
-
-
 def boolean_query(querystring, max_results):
     """Executes a boolean query and returns a list of matching documents.
 
@@ -266,6 +238,34 @@ def boolean_query(querystring, max_results):
         return
     result_set = execute_chained_booleans(set(), ops)
     return list(result_set)[:max_results]
+
+
+def execute_chained_booleans(result, ops):
+    """Executes a sequence of boolean operations stored in `ops` on the
+    matching documents of each query term (left to right precendence).
+
+    Parameters
+    ----------
+    result : set
+        Current result set of matching documents.
+    ops : list
+        A list of alternating boolean operators and query terms, e.g.:
+        ["or", "religion", "and", "science] , this will execute the query
+        "religion AND science".  The first operator is dummy and will
+        always be an "or" (neutral).
+
+    Returns
+    -------
+    set
+        A set of matching document id's.
+    """
+    if not ops:
+        return result
+    else:
+        set_op = lambda s, x, y: (x == "and" and s.intersection_update(y)) \
+                                  or (x == "or" and s.update(y))
+        set_op(result, ops.pop(), inverted_index.get(ops.pop(), set()))
+        return execute_chained_booleans(result, ops)
 
 
 def tfidf_query(querystring, max_results):
