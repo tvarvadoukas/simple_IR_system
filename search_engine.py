@@ -25,7 +25,7 @@ dataset : list of dicts
     required for ranking algorithms based on metrics like TF-IDF.  Also, the
     implicit position in the index can be used as the document's id, which
     offers memory conveniences as it is only an integer.
-    
+
     Below is a block representation of this attribute's internal structure:
 
         [
@@ -43,11 +43,11 @@ dataset : list of dicts
         ]
 inverted_index : dict of sets of int
     Inverted index of terms to documents.
-    
+
     It is a dictionary where each entry's key is an indexable term and its
     value the list of documents (their id's) that contain them.  In this
     implementation the list of documents is represented by sets to gain the
-    speed benefits of union and intersection.        
+    speed benefits of union and intersection.
 
     Below is a block representation of this attribute's internal structure:
     {
@@ -111,12 +111,12 @@ def get_filenames(root_path):
     ----------
     root_path : str
         Path to dataset's top level directory.
-    
+
     Yields
     ------
     str
         The relative path of a file.
-    
+
     """
     return (os.path.join(dirpath, f)
             for dirpath, _, files in os.walk(root_path)
@@ -174,7 +174,7 @@ def tokenize(document):
     The following tokenization steps are applied:
         1. Lowercase
         2. Keep only letters and numbers
-    
+
     Parameters
     ----------
     document : str
@@ -201,7 +201,7 @@ def query(querystring, max_results=10, strategy="boolean"):
         The number of returned results.
     strategy : str
         One of "boolean" or "tfidf".
-        
+
     """
     if strategy == "boolean":
         return boolean_query(querystring, max_results)
@@ -241,18 +241,18 @@ def boolean_query(querystring, max_results):
     """Executes a boolean query and returns a list of matching documents.
 
     Transforms the query string to a list of boolean operators and terms, for
-    left to right execuion.  It returns the top `max_results` documents from the
-    result set of these boolean operators.
+    left to right execuion.  It returns the top `max_results` documents from
+    the result set of these boolean operators.
 
     Parameters
     ----------
     querystring : str
-        A query string. It should have the following format: 
+        A query string. It should have the following format:
         <word> <OP> <word> <OP> <word> , where <word> is a single term
         and <OP> is one of "AND" or "OR" (or lowercase).
     max_results : int
         The number of returned documents.
-    
+
     Returns
     -------
     list
@@ -289,7 +289,7 @@ def tfidf_query(querystring, max_results):
         A query string.
     max_results : int
         The number of returned documents.
-    
+
     Returns
     -------
     list
@@ -308,7 +308,7 @@ def tfidf_query(querystring, max_results):
             heapreplace(resultset, (score, c))
     result_set.sort(reverse=True)
     return [r[1] for r in result_set]
-    
+
 
 def tfidf(word, docid):
     """Returns a term's TF-IDF score with respect to a document. """
