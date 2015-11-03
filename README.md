@@ -34,10 +34,10 @@ format. The parsing code doesn't account for tricky inputs.
 
 Files
 -----
-search_engine.py:
+`search_engine.py`:
     API of the IR system. Contains functions for indexing and retrieval.
 
-main.py:
+`main.py`:
     A driver program for the `search_engine.py` that also provides an
     interactive shell for real-time querying, so as to avoid re-indexing
     the dataset.
