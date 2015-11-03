@@ -114,9 +114,10 @@ Dataset / Inverted index size: 19997 / 203943
 
 Now the shell waits for queries or commands. The available commands configure
 the parameters `strategy` and `max_results`. List of commands:
-    * `/show_options: shows the current values of the parameters`
-    * `/set_strategy <strategy>: sets the strategy ("boolean" or "tfidfd")`
-    * `/set_max_results <number>: sets the number of returned results (default=10)
+    
+- `/show_options: shows the current values of the parameters`
+- `/set_strategy <strategy>: sets the strategy ("boolean" or "tfidfd")`
+- `/set_max_results <number>: sets the number of returned results (default=10)
 
 Continuing the example:
 
